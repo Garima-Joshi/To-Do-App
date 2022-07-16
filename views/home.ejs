@@ -1,0 +1,134 @@
+<html>
+
+<head>
+    <title>To Do</title>
+    <link rel="stylesheet" href="/css/home.css">
+    <script src="https://kit.fontawesome.com/6714071f1f.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <!-- MAIN HEADING -->
+    <center>
+        <header id="main_heading">
+            <h1>ToDoist <i class="fa-solid fa-list-check"></i></h1>
+        </header>
+    </center>
+    <div>
+        <!-- CREATE TASK -->
+        <div id="create_task" class="section">
+            <center>
+                <header>
+                    <h3>New Task <i class="fa-solid fa-pen-to-square"></i></h3>
+                </header>
+            </center>
+            <!-- CREATE TASK FORM -->
+            <form action="/create-task" method="POST">
+                <p>
+                    <label>TITLE</label><br>
+                    <input type="text" id="name" placeholder="ENTER TITLE" name="title" required>
+                </p>
+                <p>
+                    <label>DESCRIPTION</label><br>
+                    <input type="text" id="description" placeholder="WHAT DO YOU NEED TO DO" name="description">
+                </p>
+                <p>
+                    <label>DATE</label><br>
+                    <input type="date" id="date" name="date" required>
+                </p>
+                <p>
+                    <label>TIME</label><br>
+                    <input type="time" id="time" name="time">
+                </p>
+                <p>
+                    <label>CATEGORY</label><br>
+                    <select name="category" id="category">
+                        <option value="Work">Work</option>
+                        <option value="School">School</option>
+                        <option value="Personal" selected>Personal</option>
+                    </select>
+                </p>
+                <!-- CREATE TASK 'ADD TASK' BUTTON -->
+                <button id="add-btn" type="submit"> <i class="fa-solid fa-plus"></i> Add Task</button>
+            </form>
+        </div>
+        <!-- SHOW TASK -->
+        <div id="show_task" class="section">
+            <center>
+                <header>
+                    <h3>Your To-Do's <i class="fa-solid fa-rectangle-list"></i></h3>
+                </header>
+            </center>
+            <!-- SCROLLABLE TASK AREA -->
+            <div id="scroller">
+                <!-- LOOP OVER TASK LIST -->
+                <% for (let task of task_list) { %>
+                    <!-- SINGLE TASK -->
+                    <div class="task">
+                        <div class="item1">
+                            <%=task.Title %>
+                        </div>
+                        <% if(task.Description!="" ){ %>
+                            <div class="item2">
+                                <%=task.Description %>
+                            </div>
+                        <% }else{ %>
+                                <div class="item2">No Description</div>
+                            <%}%>
+                        <div class="item3"> <i class="fa-regular fa-calendar-days"></i>
+                            <%=task.Date %>
+                        </div>
+                        <% if(task.Time!="" ){ %>
+                            <div class="item4">
+                                <i class="fa-regular fa-clock"></i>
+                                <%=task.Time %>
+                            </div>
+                        <% } %>
+                        <div class="item5">
+                            <a href="/delete-task/?id=<%= task._id %>">
+                                <i class="fa-solid fa-xmark"></i>
+                            </a>
+                        </div>
+                        <% if(task.Category=="Work" ){ %>
+                            <div class="item6" style="background-color: rgb(204, 107, 42);">
+                                    <%=task.Category %>
+                            </div>
+                        <%}else if(task.Category=="Personal" ){%>
+                            <div class="item6" style="background-color: rgb(54, 52, 153);">
+                                <%=task.Category %>
+                            </div>
+                            <%}%>
+                        <% if(task.Category=="School" ){%>
+                            <div class="item6"style="background-color: rgb(221, 75, 148)">
+                                <%=task.Category %>
+                            </div>
+                        <% } %>
+                    </div>
+                <% } %>
+            </div>
+            <form action="/" method="GET" >
+                <button type="submit" id="back-btn">Show All</button>
+            </form>
+            <!-- SEARCH SPECIFIC -->
+            <div id="search" class="search_1">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <i class="fa-solid fa-xmark" id="close_search"></i>
+                <!-- SEARCH SPECIFIC INPUT AREA -->
+                <form action="/show-specific" method="GET">
+                    <select name="search_item" id="search_item">
+                        <option value="Title" selected>TITLE</option>
+                        <option value="Date">DATE</option>
+                        <option value="Category">CATEGORY</option>
+                    </select>
+                    <div id="input" class="input_style">
+                        <input type="text" placeholder="Enter Keyword" id="search_input" name="search_keyword" required>
+                    </div>
+                    <!-- SEARCH BUTTON -->
+                    <button id="search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="/javascript/home.js"></script>
+</body>
+
+</html>
